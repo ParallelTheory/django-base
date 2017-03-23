@@ -7,4 +7,3 @@ RUN pip install -r requirements.txt
 COPY ./start.sh /
 COPY ./code/ /code/
 CMD chmod 755 /start.sh
-ENTRYPOINT /start.sh

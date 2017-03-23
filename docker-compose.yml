@@ -6,6 +6,7 @@ services:
     build: .
     environment:
       - PARALLEL_MODE
+    command: /start.sh
     volumes:
       - ./code:/code
     ports:
