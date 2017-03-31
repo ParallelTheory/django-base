@@ -1,4 +1,5 @@
-FROM python:2.7
+FROM python:3.6
+LABEL maintainer "engineering@paralleltheory.com"
 ENV PYTHONUNBUFFERED 1
 EXPOSE 8000
 RUN mkdir /code
