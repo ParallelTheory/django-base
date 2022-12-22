@@ -1,4 +1,5 @@
 ### Path Tree:
+```
 .
 ├── .env                # < Environment for docker-compose
 ├── requirements.txt    # < Python module list
@@ -19,7 +20,7 @@
 │       └── wsgi.py
 ├── secrets            # < Secrets for your project, not source-controlled
 └── venv               # < Django and constituent python modules
-
+```
 
 ### Creating a new project:
 1. Create a venv: `python -m venv venv`
