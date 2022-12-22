@@ -1,5 +1,5 @@
 FROM python:3.9-buster
-ENV DJANGO_APP=<CHANGE THIS>
+ENV DJANGO_PROJECT=<CHANGE THIS>
 ENV DJANGO_ROOT=django
 
 RUN apt-get update \

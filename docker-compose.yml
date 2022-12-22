@@ -1,11 +1,10 @@
 services:
   django:
-    image: django:latest
+    image: ${DJANGO_PROJECT}:latest
     build:
       dockerfile: Dockerfile
     depends_on:
       - db
-      - migrations
     ports:
       - 8020:8020
     env_file: .env
