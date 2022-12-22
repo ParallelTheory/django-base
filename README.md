@@ -1,3 +1,9 @@
+## This is a Work In Progress
+As of 22-December-2022 this is a decent mechanism to kick off a new project.
+It may not be sufficient to transition to a production site.
+
+**You have been warned.**
+
 ### Path Tree:
 ```
 .
