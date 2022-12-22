@@ -1,0 +1,54 @@
+services:
+  django:
+    image: django:latest
+    build:
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+      - migrations
+    ports:
+      - 8020:8020
+    env_file: .env
+    secrets:
+      - source: django-postgres
+        target: "/opt/app/postgres.passwd"
+        mode: 0600
+    volumes:
+      - ./django:/opt/app/django
+      - ./.pip_cache:/opt/app/pip_cache
+
+  db:
+    image: postgres:15-alpine
+    restart: always
+    env_file: .env
+    ports:
+      - "5432:5432"
+    secrets:
+      - source: postgres
+        target: "/run/secrets/postgres.passwd"
+        mode: 0600
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer:4
+    restart: always
+    ports:
+      - 8021:8080
+
+  pgadmin:  
+    image: dpage/pgadmin4
+    env_file: .env
+    depends_on:
+      - db
+    ports:
+      - "8022:80"
+
+secrets:
+  postgres:
+    file: ./secrets/postgres.passwd
+  django-postgres:
+    file: ./secrets/django-postgres.passwd
+
+volumes:
+  dbdata:
