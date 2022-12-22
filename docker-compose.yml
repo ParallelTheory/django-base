@@ -1,6 +1,6 @@
 services:
   django:
-    image: ${DJANGO_PROJECT}:latest
+    image: ${DJANGO_PROJECT}:${DJANGO_TAG}
     build:
       dockerfile: Dockerfile
     depends_on:
