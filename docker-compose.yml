@@ -3,6 +3,9 @@ services:
     image: ${DJANGO_PROJECT}:${DJANGO_TAG}
     build:
       dockerfile: Dockerfile
+      args:
+        DJANGO_PROJECT: ${DJANGO_PROJECT}
+        DJANGO_ROOT: django
     depends_on:
       - db
     ports:

@@ -1,6 +1,6 @@
 FROM python:3.9-buster
-ENV DJANGO_PROJECT=<CHANGE THIS>
-ENV DJANGO_ROOT=django
+ARG DJANGO_PROJECT
+ARG DJANGO_ROOT
 
 RUN apt-get update \
     && apt-get install nginx vim -y --no-install-recommends

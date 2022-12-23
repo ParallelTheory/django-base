@@ -31,34 +31,40 @@ It may not be sufficient to transition to a production site.
 ### Creating a new project:
 1. Create a venv: `python -m venv venv`
 2. Activate the venv: `source venv/bin/activate`
-3. Install Django: `pip install -r requirements.txt --cache-dir .pip_cache`
-4. Run `django-admin startproject new-project-name`
-  a. This will create a new "project" folder using `new-project-name`
-5. Rename the `new-project-name` to `django`
-5. Modify `django/<project>/settings.py`:
-  a. Add `import os` at the top
+3. Install Django
+  a. Option 1, "CORE" Django:
+    i. Install Django, `pip install -r requirements.txt --cache-dir .pip_cache`
+    ii. Run `django-admin startproject <new-project-name>`
+  b. Option 2, "Wagtail" CMS:
+    i. Edit `requirements.txt`, and add `wagtail` to the end
+    ii. Install Wagtail, `pip install -r requirements.txt --cache-dir .pip_cache`
+    iii. Run `wagtail start <new-project-name>`
+4. Rename the `<new-project-name>` folder to `django`
+5. Modify `django/<project>/settings.py` (if using Core Django), or `django/<project>/settings/base.py` (if using Wagtail):
+  a. Add `import os` at the top (Core Django only)
   b. Add `corsheaders` to `INSTALLED_APPS`
   c. Add `corsheaders.middleware.CorsMiddleware` to the TOP of `MIDDLEWARE`
-  d. Add `STATIC_ROOT = os.path.join(BASE_DIR, "static")` to end of file
-  e. Add `MEDIA_ROOT = os.path.join(BASE_DIR, "media")` to end of file
-  f. Add `MEDIA_URL = "/media/"` to end of file
-  g. Add `CSRF_TRUSTED_ORIGINS = ['http://localhost:8020']` to end of file
-  h. By default, `DATABASES` will be configured to use `db.sqlite3`, but this stack supports PostgreSQL. Simply update `DATABASES` to use the existing Postgres configuration, if desired. See _DATABASES_ below.
+  d. Add `STATIC_ROOT = os.path.join(BASE_DIR, "static")` to end of file (Core Django Only)
+  e. Add `STATIC_URL = "/static/"` to end of file (Core Django Only)
+  f. Add `MEDIA_ROOT = os.path.join(BASE_DIR, "media")` to end of file (Core Django Only)
+  g. Add `MEDIA_URL = "/media/"` to end of file (Core Django Only)
+  h. Add `CSRF_TRUSTED_ORIGINS = ['http://localhost:8020']` to end of file
+  i. By default, `DATABASES` will be configured to use `db.sqlite3`, but this stack supports PostgreSQL. Simply update `DATABASES` to use the existing Postgres configuration, if desired. See _DATABASES_ below.
 6. Copy `env.dist` to `.env`
-7. Make sure to update `DJANGO_PROJECT` in `Dockerfile` based on the name given to `django-admin startproject`
-8. Update all references to `CHANGE THIS` in `.env`
-9. Create a `postgres.passwd` file in the `secrets/` folder
+7. Update all references to `CHANGE THIS` in `.env`
+8. Create a `postgres.passwd` file in the `secrets/` folder
   a. This should be a plaintext file containing just the password for the `django` schema
   b. Make sure the file permissions are `0400`
-10. Create a `django-postgres.passwd` file in the `secrets/` folder
+9. Create a `django-postgres.passwd` file in the `secrets/` folder
   a. This is a django DB services file
   b. The format is: hostname:portnumber:schema:user:password
      ex: db:5432:django:django:supersecret
   c. Make sure the file permissions are `0400`
-11. FIRST RUN: Build and launch the stack via `docker compose up --build`, then run the following:
+10. FIRST RUN: Build and launch the stack via `docker compose up --build`, then run the following:
   a. `docker compose exec django python django/manage.py migrate`
   b. `docker compose exec django python django/manage.py createsuperuser`
-12. That's it! Django is now running in a containerized environment!
+  c. `docker compose exec django python django/manage.py collectstatic`
+11. That's it! Django is now running in a containerized environment!
   a. Django: http://localhost:8020/
   b. Adminer: http://localhost:8021/
   c. pgadmin: http://localhost:8022/
