@@ -2,6 +2,5 @@ Django
 django-cors-headers
 Markdown==3.3.4
 requests
-martor
 gunicorn
 psycopg2
