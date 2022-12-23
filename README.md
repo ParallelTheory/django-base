@@ -89,4 +89,5 @@ DATABASES = {
             'passfile': '/run/secrets/django-postgres'
         },
     }
-}```
+}
+```
