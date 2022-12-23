@@ -11,4 +11,8 @@ server {
     location /static {
         root /opt/app/django;
     }
+
+    location /media {
+        root /opt/app/django;
+    }
 }

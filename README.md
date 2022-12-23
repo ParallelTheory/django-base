@@ -36,21 +36,25 @@ It may not be sufficient to transition to a production site.
   a. This will create a new "project" folder using `new-project-name`
 5. Rename the `new-project-name` to `django`
 5. Modify `django/<project>/settings.py`:
-  a. Add `corsheaders` to `INSTALLED_APPS`
-  b. Add `corsheaders.middleware.CorsMiddleware` to the TOP of `MIDDLEWARE`
-  c. Add `STATIC_ROOT = os.path.join(BASE_DIR, "static")` to end of file
-  d. Add `MEDIA_ROOT = os.path.join(BASE_DIR, "media")` to end of file
-  e. Add `CSRF_TRUSTED_ORIGINS = ['http://localhost:8020']` to end of file
-  f. By default, `DATABASES` will be configured to use `db.sqlite3`, but this stack supports PostgreSQL. Simply update `DATABASES` to use the existing Postgres configuration, if desired. See _DATABASES_ below.
+  a. Add `import os` at the top
+  b. Add `corsheaders` to `INSTALLED_APPS`
+  c. Add `corsheaders.middleware.CorsMiddleware` to the TOP of `MIDDLEWARE`
+  d. Add `STATIC_ROOT = os.path.join(BASE_DIR, "static")` to end of file
+  e. Add `MEDIA_ROOT = os.path.join(BASE_DIR, "media")` to end of file
+  f. Add `MEDIA_URL = "/media/"` to end of file
+  g. Add `CSRF_TRUSTED_ORIGINS = ['http://localhost:8020']` to end of file
+  h. By default, `DATABASES` will be configured to use `db.sqlite3`, but this stack supports PostgreSQL. Simply update `DATABASES` to use the existing Postgres configuration, if desired. See _DATABASES_ below.
 6. Copy `env.dist` to `.env`
 7. Make sure to update `DJANGO_PROJECT` in `Dockerfile` based on the name given to `django-admin startproject`
 8. Update all references to `CHANGE THIS` in `.env`
 9. Create a `postgres.passwd` file in the `secrets/` folder
   a. This should be a plaintext file containing just the password for the `django` schema
+  b. Make sure the file permissions are `0400`
 10. Create a `django-postgres.passwd` file in the `secrets/` folder
   a. This is a django DB services file
-  b. The format is: hostname:portnumber:schema:password
-     ex: db:5432:django:supersecret
+  b. The format is: hostname:portnumber:schema:user:password
+     ex: db:5432:django:django:supersecret
+  c. Make sure the file permissions are `0400`
 11. FIRST RUN: Build and launch the stack via `docker compose up --build`, then run the following:
   a. `docker compose exec django python django/manage.py migrate`
   b. `docker compose exec django python django/manage.py createsuperuser`
