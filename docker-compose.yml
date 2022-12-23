@@ -9,9 +9,7 @@ services:
       - 8020:8020
     env_file: .env
     secrets:
-      - source: django-postgres
-        target: "/opt/app/postgres.passwd"
-        mode: 0600
+      - django-postgres
     volumes:
       - ./django:/opt/app/django
       - ./.pip_cache:/opt/app/pip_cache
@@ -23,9 +21,7 @@ services:
     ports:
       - "5432:5432"
     secrets:
-      - source: postgres
-        target: "/run/secrets/postgres.passwd"
-        mode: 0600
+      - postgres
     volumes:
       - dbdata:/var/lib/postgresql/data
 

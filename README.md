@@ -41,7 +41,7 @@ It may not be sufficient to transition to a production site.
   c. Add `STATIC_ROOT = os.path.join(BASE_DIR, "static")` to end of file
   d. Add `MEDIA_ROOT = os.path.join(BASE_DIR, "media")` to end of file
   e. Add `CSRF_TRUSTED_ORIGINS = ['http://localhost:8020']` to end of file
-  f. By default, `DATABASES` will be configured to use `db.sqlite3`, but this stack supports PostgreSQL. Simply update `DATABASES` to use the existing Postgres configuration, if desired...
+  f. By default, `DATABASES` will be configured to use `db.sqlite3`, but this stack supports PostgreSQL. Simply update `DATABASES` to use the existing Postgres configuration, if desired. See _DATABASES_ below.
 6. Copy `env.dist` to `.env`
 7. Make sure to update `DJANGO_PROJECT` in `Dockerfile` based on the name given to `django-admin startproject`
 8. Update all references to `CHANGE THIS` in `.env`
@@ -72,3 +72,17 @@ It may not be sufficient to transition to a production site.
 ### Notes:
 1. While the stack is running, code changes will be reflected inside the container image in realtime
 2. Migrations run from within the stack will be persisted to the code on disk, for easy submission to source control
+
+### Databases:
+Update the `settings.py` for your project, replacing `DATABASES` with this block to use the in-built Postgres setup:
+```
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'HOST': 'db',
+        'OPTIONS': {
+            'service': 'django',
+            'passfile': '/run/secrets/django-postgres'
+        },
+    }
+}```

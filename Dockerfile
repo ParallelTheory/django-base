@@ -7,9 +7,9 @@ RUN apt-get update \
 COPY nginx.default /etc/nginx/sites-available/default
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
-RUN mkdir -p /opt/app
-RUN mkdir -p /opt/app/pip_cache
-RUN mkdir -p /opt/app/${DJANGO_ROOT}
+RUN mkdir -p /opt/app \
+    && mkdir -p /opt/app/pip_cache \
+    && mkdir -p /opt/app/${DJANGO_ROOT}
 COPY requirements.txt start-server.sh /opt/app/
 COPY pg_service.conf /etc/postgresql-common/pg_service.conf
 COPY .pip_cache /opt/app/pip_cache/
